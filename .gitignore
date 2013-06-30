@@ -1,0 +1,21 @@
+# Package
+*.gem
+pkg
+tmp
+
+# Generated files for C extension
+Makefile
+*.o
+*.bundle
+*.so
+
+# Data files
+*.bz2
+*.trigrams
+
+# CTags
+.tags
+.tags_sorted_by_file
+
+# Mac turds
+.DS_Store
