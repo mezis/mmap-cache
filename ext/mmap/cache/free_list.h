@@ -6,7 +6,7 @@
 // None of the functions here perform memory allocation.
 // The payload memory is never touched.
 //
-#include <inttypes.h>
+#include <stdint.h>
 #include "helpers.h"
 
 /*
@@ -26,7 +26,7 @@
 // You need to allocate space yourself for
 // - the heade offset (<offset_bytes>)
 // - the slots (<slots_stride> * <slots_count>)
-struct free_list_t
+struct free_list_
 {
   // 1, 2 or 4 - bits per slot address
   uint8_t  offset_bytes;
@@ -43,6 +43,7 @@ struct free_list_t
   uint8_t* payload_ptr;
 };
 
+typedef struct free_list_ free_list_t;
 
 // Ignores data in all slots but sets up all offsets.
 // Returns 0 on success, non-0 on failure and sets errno.

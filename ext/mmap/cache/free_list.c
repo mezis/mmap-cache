@@ -2,6 +2,8 @@
 // free_list.c --§
 //
 #include <errno.h>
+#include <stdlib.h>
+#include <assert.h>
 #include "free_list.h"
 
 // struct free_list_t
@@ -19,12 +21,12 @@
 
 // pointer to the payload of slot <_IDX>
 #define _FL_PAYLOAD_PTR(_FL,_IDX) \
-    assert(IDX >= 0 && _IDX < _FL->slots_count) \
+    assert(_IDX >= 0 && _IDX < _FL->slots_count) \
     (_FL->payload_ptr + _IDX * _FL->slots_stride)
 
 // pointer to the next-offset of slot <_IDX>
 #define _FL_NEXT_PTR(_FL, _IDX) \
-    assert(IDX >= 0 && _IDX < _FL->slots_count) \
+    assert(_IDX >= 0 && _IDX < _FL->slots_count) \
     (_FL->payload_ptr + (_IDX + 1) * _FL->slots_stride - _FL->offset_bytes)
 
 // offset used when there is no next free slot
@@ -65,10 +67,10 @@ void _free_list_set_next(free_list_t* fl, uint32_t slot, uint32_t value)
 {
   switch(fl->offset_bytes) {
     case 2:
-      *(uint16_t*)_FL_NEXT_PTR(fl,offset) = (uint16_t)value;
+      *((uint16_t*) _FL_NEXT_PTR(fl,slot)) = (uint16_t)value;
       break;
     case 4:
-      *(uint32_t*)_FL_NEXT_PTR(fl,offset) = (uint32_t)value;
+      *((uint32_t*)_FL_NEXT_PTR(fl,slot)) = (uint32_t)value;
       break;
     default: abort();
   }
@@ -80,10 +82,10 @@ void _free_list_get_next(free_list_t* fl, uint32_t slot, uint32_t* value)
 {
   switch(fl->offset_bytes) {
     case 2:
-      *value = *(uint16_t*)_FL_NEXT_PTR(fl,offset);
+      *value = *((uint16_t*)_FL_NEXT_PTR(fl,slot));
       break;
     case 4:
-      *value = *(uint32_t*)_FL_NEXT_PTR(fl,offset);
+      *value = *((uint32_t*)_FL_NEXT_PTR(fl,slot));
       break;
     default: abort();
   }
@@ -94,10 +96,10 @@ void _free_list_set_head(free_list_t* fl, uint32_t value)
 {
   switch(fl->offset_bytes) {
     case 2:
-      *(uint16_t*) fl->head_slot_ptr = value;
+      *((uint16_t*) fl->head_slot_ptr) = value;
       break;
     case 4:
-      *(uint32_t*) fl->head_slot_ptr = value;
+      *((uint32_t*) fl->head_slot_ptr) = value;
       break;
     default: abort();
   }
@@ -108,10 +110,10 @@ void _free_list_get_head(free_list_t* fl, uint32_t* value)
 {
   switch(fl->offset_bytes) {
     case 2:
-      *value = *(uint16_t*) fl->head_slot_ptr;
+      *value = *((uint16_t*) fl->head_slot_ptr);
       break;
     case 4:
-      *value = *(uint32_t*) fl->head_slot_ptr;
+      *value = *((uint32_t*) fl->head_slot_ptr);
       break;
     default: abort();
   }

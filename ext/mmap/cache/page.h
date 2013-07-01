@@ -3,7 +3,7 @@
 //
 // Common definition for pages
 //
-#include <inttypes.h>
+#include <stdint.h>
 #include "helpers.h"
 
 

@@ -3,7 +3,7 @@
 //
 // Manipulate a memory page where allocation uses a page bitmap.
 //
-#include <inttypes.h>
+#include <stdint.h>
 #include "helpers.h"
 
 struct page_t
