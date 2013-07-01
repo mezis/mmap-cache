@@ -18,10 +18,10 @@ Data Layout
 
 The metadata file:
 
-- cache_info_t    (64 bytes)
+- cache_info_t    (256 bytes)
 - page_info_t[]   (8 bytes * <page_count>, preallocated and fixed)
-- hash_bucket_t[] (36 bytes * 2 ** <hash_table_size>, preallocated + locking expansion mechanism)
-- hash_extent_t[] (136 bytes * 1024 initially, freelist-managed)
+- hash_bucket_t[] (32 bytes * 2 ** <hash_table_size>, preallocated + locking expansion mechanism)
+- hash_extent_t[] (128 bytes * 1024 initially, freelist-managed)
 
 The payload file:
 
